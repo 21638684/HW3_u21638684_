@@ -1,0 +1,113 @@
+﻿@model List<HW3_u21638684.Models.ReportVM>
+
+@{
+    ViewBag.Title = "Report";
+}
+<div class="container mt-5">
+    <h2>Report</h2>
+
+    <div id="chartContainer" style="width: 100%; height: 400px;"></div>
+
+    <form method="post" action="@Url.Action("SaveReport")" class="mt-4">
+        <div class="form-group">
+            <label for="filename">Filename:</label>
+            <input type="text" class="form-control" name="fileName" required />
+        </div>
+
+        <div class="form-group">
+            <label for="fileType">File Type:</label>
+            <select class="form-control" name="fileType" required>
+                <option value="pdf">PDF</option>
+                <option value="xlsx">Excel</option>
+            </select>
+        </div>
+
+        @for (var i = 0; i < Model.Count; i++)
+        {
+            <input type="hidden" name="reportData[@i].BookId" value="@Model[i].BookId" />
+            <input type="hidden" name="reportData[@i].BookName" value="@Model[i].BookName" />
+            <input type="hidden" name="reportData[@i].BorrowCount" value="@Model[i].BorrowCount" />
+        }
+
+        <button type="submit" class="btn btn-success">Save Report</button>
+    </form>
+</div>
+
+<div class="container mt-5">
+    <h2>Document Archive</h2>
+
+    <table class="table table-responsive-sm table-hover">
+        <thead>
+            <tr>
+                <th>File Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.FileNames != null && ViewBag.FileNames.Length > 0)
+            {
+                foreach (var fileName in ViewBag.FileNames)
+                {
+                    <tr>
+                        <td>@fileName</td>
+                        <td>
+                            <a href="@Url.Action("Downloadfile", new { fileName = fileName })" class="btn btn-success">Download</a>
+                            <form action="@Url.Action("Deletefile", new { fileName = fileName })" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2">No files available.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        var dataPoints = @Html.Raw(Json.Encode(Model));
+        var chart = new CanvasJS.Chart("chartContainer", {
+            title: {
+                text: "Most Borrowed Books"
+            },
+            animationEnabled: true,
+            legend: {
+                verticalAlign: "center",
+                horizontalAlign: "left",
+                fontSize: 12,
+                fontFamily: "Helvetica"
+            },
+            theme: "light2",
+            data: [
+            {
+                type: "pie",
+                indexLabelFontFamily: "Garamond",
+                indexLabelFontSize: 22,
+                indexLabel: "{label} {y}%",
+                startAngle: -20,
+                showInLegend: true,
+                toolTipContent: "{legendText} {y}%",
+                dataPoints: dataPoints.map(function(item) {
+                    return {
+                        y: item.BorrowCount,
+                        legendText: item.BookName,
+                        label: item.BookName
+                    };
+                })
+            }
+            ]
+        });
+        chart.render();
+    });
+</script>
+

@@ -1,0 +1,59 @@
+﻿@model HW3_u21638684.Models.student
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<div>
+    <h4>Student Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.surname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.surname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.birthdate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.birthdate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Class")
+        </dt>
+        <dd>
+            @Html.Display("class")
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.point)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.point)
+        </dd>
+
+    </dl>
+</div>

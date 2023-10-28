@@ -1,0 +1,27 @@
+﻿@model HW3_u21638684.Models.author
+
+@{
+    ViewBag.Title = "Details";
+}
+<div>
+    <h4>Author Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.surname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.surname)
+        </dd>
+
+    </dl>
+</div>
